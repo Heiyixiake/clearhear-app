@@ -17,6 +17,12 @@
 /* ===== RESET & BASE ===== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;overflow:hidden;}
+/* ===== 禁用误触缩放 =====
+   双击缩放 / 双指捏合会让 430px 定宽界面错位，扇形按钮与滑块失控。
+   pan-x pan-y 保留单指滚动，但不再响应双击与捏合缩放；
+   长辈模式三档字号是内建的合法放大途径。 */
+html,body{touch-action:pan-x pan-y;}
+input[type=range]{touch-action:none;}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue","PingFang SC",sans-serif;
   background:#F2F2F7;
@@ -4007,6 +4013,37 @@ function stopDualVizAnimation() {
     toggle: function () { setEnabled(!enabled); },
     isEnabled: function () { return enabled; }
   };
+})();
+</script>
+<script>
+/* ============================================================
+   禁用移动端误触缩放（双击缩放 / 双指捏合）
+   - 上面 CSS 的 touch-action 是主防线，这里做 iOS Safari 等环境的兜底。
+   - 刻意不用「touchend 300ms 内二次点击 preventDefault」的常见方案：
+     那会吞掉增益 ± 按钮、分段控件的快速连点，助听调节反而失灵。
+   - 系统级辅助功能（iOS 缩放、浏览器字体大小）不受网页代码影响，仍可用；
+     长辈模式「标准 / 大 / 超大」三档字号是内建的放大途径。
+   ============================================================ */
+(function () {
+  'use strict';
+  var opts = { passive: false };
+
+  // iOS Safari 专有 GestureEvent：捏合 / 旋转手势
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      e.preventDefault();
+    }, opts);
+  });
+
+  // 多指触摸兜底（Android Chrome 及不支持 GestureEvent 的浏览器）
+  document.addEventListener('touchmove', function (e) {
+    if (e.touches && e.touches.length > 1) e.preventDefault();
+  }, opts);
+
+  // 双击缩放兜底：只阻止默认行为，不影响正常 click
+  document.addEventListener('dblclick', function (e) {
+    e.preventDefault();
+  }, opts);
 })();
 </script>
 </body>
