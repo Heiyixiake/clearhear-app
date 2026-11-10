@@ -1,4 +1,4 @@
-<!-- 听得清 ClearHear v1.5.0 · 品牌与适老化改版 -->
+<!-- 听得清 ClearHear v1.5.0 -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -712,15 +712,15 @@ input[type=range]::-moz-range-thumb{
         再把 elder-mode.js 包一层 script 标签追加到 body 结束标签之前。
 
    v3 设计原则：长辈模式不是另一套 App，而是「同一套 iOS 视觉语言的大字号版」。
-   - 色板完全沿用原项目：#F2F2F7 背景、#FFFFFF 卡片、#007AFF 主蓝、
+   - 色板完全沿用现有设计：#F2F2F7 背景、#FFFFFF 卡片、#007AFF 主蓝、
      #FF3B30 危险红、#34C759 成功绿、#E5E5EA 填充灰、#1C1C1E 主文字。
    - 次要文字从 #8E8E93 提到 #3C3C43（约 9.7:1，WCAG AAA），不再用纯黑。
    - 沿用 20px 卡片圆角 / 14px 按钮圆角 / 0 2px 8px 阴影 / 0.5px 分隔线 /
      -apple-system 字体栈 / cubic-bezier(0.32,0.72,0,1) 缓动。
    - 保留适老化规格：三档字号、次要文字高对比、≥60px 触控、84px 整宽主按钮。
-   - 只关闭无限循环 keyframes，保留原项目的短促触感过渡，不再一刀切 transition:none。
+   - 只关闭无限循环 keyframes，保留现有设计的短促触感过渡，不再一刀切 transition:none。
    除最后一组全局增强外，其余外观规则全部以 body.elder-mode 开头，
-   关闭长辈模式时对原应用零影响。
+   关闭长辈模式时对标准界面零影响。
    ============================================================ */
 
 body.elder-mode {
@@ -759,7 +759,7 @@ body.elder-mode[data-font-size="xl"] {
   --em-touch: 72px;
 }
 
-/* ---- 动效：关掉无限循环动画，保留原项目的短促触感反馈 ---- */
+/* ---- 动效：关掉无限循环动画，保留现有设计的短促触感反馈 ---- */
 body.elder-mode *,
 body.elder-mode *::before,
 body.elder-mode *::after {
@@ -774,7 +774,7 @@ body.elder-mode .start-test-circle-inner {
   transition: none !important;
 }
 
-/* 只改手机容器内部；桌面下 body 外层的 #E5E5EA 由原项目媒体查询决定，保持一致 */
+/* 只改手机容器内部；桌面下 body 外层的 #E5E5EA 由桌面媒体查询决定，保持一致 */
 body.elder-mode {
   color: var(--em-fg) !important;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "PingFang SC", sans-serif !important;
@@ -865,7 +865,7 @@ body.elder-mode .home-brand svg {
   display: none !important;
 }
 
-/* ---- 卡片：沿用原项目的白底 20px 圆角 + 轻阴影，不要粗描边 ---- */
+/* ---- 卡片：沿用现有设计的白底 20px 圆角 + 轻阴影，不要粗描边 ---- */
 body.elder-mode .settings-card,
 body.elder-mode .gain-card,
 body.elder-mode .hearing-summary-card,
@@ -905,7 +905,7 @@ body.elder-mode .test-pause-btn {
 
 body.elder-mode .skip-test-btn { width: 100% !important; margin-top: 14px !important; }
 
-/* ---- 通用按钮：保持原项目 .btn 的 600 字重与 14px 圆角 ---- */
+/* ---- 通用按钮：保持 .btn 的 600 字重与 14px 圆角 ---- */
 body.elder-mode .btn,
 body.elder-mode .btn-small,
 body.elder-mode .sheet-nav-back,
@@ -920,7 +920,7 @@ body.elder-mode .btn-primary { background: var(--em-blue) !important; color: #FF
 body.elder-mode .btn-stop { background: var(--em-danger) !important; color: #FFFFFF !important; border: none !important; }
 body.elder-mode .btn-outline { background: transparent !important; color: var(--em-blue) !important; border: 1.5px solid var(--em-blue) !important; }
 
-/* ---- 分段控件：沿用原项目的灰槽白片，只放大尺寸 ---- */
+/* ---- 分段控件：沿用现有设计的灰槽白片，只放大尺寸 ---- */
 body.elder-mode .segmented {
   background: var(--em-fill) !important;
   border-radius: 12px !important;
@@ -944,7 +944,7 @@ body.elder-mode .segmented-btn.active {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
 }
 
-/* ---- 增益步进按钮：保留原项目的白圆 + 蓝字 ---- */
+/* ---- 增益步进按钮：保留现有设计的白圆 + 蓝字 ---- */
 body.elder-mode .gain-step-btn {
   width: var(--em-touch) !important;
   height: var(--em-touch) !important;
@@ -963,7 +963,7 @@ body.elder-mode .gain-step-btn:active { background: var(--em-blue) !important; c
 body.elder-mode .gain-value { font-size: calc(var(--em-title) - 4px) !important; font-weight: 700 !important; color: var(--em-blue) !important; }
 body.elder-mode input[type="range"] { height: 8px !important; border-radius: 4px !important; }
 
-/* ---- 警示条：沿用原项目的系统红 ---- */
+/* ---- 警示条：沿用现有设计的系统红 ---- */
 body.elder-mode .howl-banner.show {
   display: block !important;
   background: var(--em-danger) !important;
@@ -976,7 +976,7 @@ body.elder-mode .howl-banner.show {
 }
 
 /* ---- 主界面扇形 FAB → 底部整宽大按钮
-   注意：原项目还有 .fab.mini .fab-circle 与绝对定位的图标/文字，
+   注意：现有设计还有 .fab.mini .fab-circle 与绝对定位的图标/文字，
    必须逐条用 !important 覆盖，否则大按钮会被压回小圆点。 */
 body.elder-mode .fab {
   position: absolute !important;
@@ -1189,7 +1189,7 @@ body.elder-mode .test-tap-text {
 }
 body.elder-mode .em-entry { display: none !important; }
 
-/* 常驻免责声明：标准模式保持原项目的浅灰小字，长辈模式放大提对比 */
+/* 常驻免责声明：标准模式保持现有设计的浅灰小字，长辈模式放大提对比 */
 .em-disclaimer {
   width: 100%;
   margin: 20px 0 8px;
@@ -3984,7 +3984,7 @@ function stopDualVizAnimation() {
   syncPanel();
 
   /* ---- 键盘可达性补全（WCAG 2.1.1，对所有模式生效） ----
-     原项目有几个 div + onclick 的操作区，键盘与读屏无法使用。 */
+     现有设计有几个 div + onclick 的操作区，键盘与读屏无法使用。 */
   var CLICKABLE = [
     ['fab-circle', '开始或停止听声音'],
     ['start-test-circle', ''],

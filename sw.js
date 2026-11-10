@@ -1,8 +1,7 @@
 /* 听得清 ClearHear · Service Worker
-   v1.5.0：品牌改版，缓存名必须与旧版 heardit-v1.4.56 区分，否则老用户
-   永远看到缓存里的旧名字与旧图标。
+   v1.5.0：缓存名带版本前缀，确保内容更新后用户能拿到新页面与新图标。
    策略：页面导航 network-first（保证更新及时），静态资源 cache-first
-   （保证离线可用）；不再用 confirm 或自动 reload 打断正在进行的助听。 */
+   （保证离线可用）；不使用 confirm 或自动 reload 打断正在进行的助听。 */
 const CACHE = 'clearhear-v1.5.0';
 const PRECACHE = [
   './',

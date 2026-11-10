@@ -56,7 +56,7 @@ python3 -m http.server 8765 --bind 127.0.0.1
 - **Android / Chrome**：浏览器菜单 →「安装应用」/「添加到主屏幕」
 - **iPhone / Safari**：分享 →「添加到主屏幕」（需先部署到 HTTPS）
 
-安装后以 standalone 全屏运行，使用 A 耳廓声波图标；离线时由 Service Worker 回落缓存（`clearhear-v1.5.0`）。页面导航优先走网络，保证改版后能及时看到新版本；静态资源优先走缓存，保证离线可用；更新过程不再弹确认框或自动刷新，避免打断正在进行的助听。
+安装后以 standalone 全屏运行，使用项目品牌图标；离线时由 Service Worker 回落缓存（`clearhear-v1.5.0`）。页面导航优先走网络，保证内容更新及时可见；静态资源优先走缓存，保证离线可用；更新过程不弹确认框、不自动刷新，避免打断正在进行的助听。
 
 ---
 
@@ -80,11 +80,11 @@ getUserMedia → AudioContext(44.1 kHz, latencyHint≈0)
 
 - iOS Safari 只认标准 `noiseSuppression`，Chrome 才会用 `googNoiseSuppression` 等私有约束，代码里按平台分支处理；
 - 21.5 kHz 正弦振荡器作为后台保活信号，配合启动版本号与锁屏恢复逻辑，避免锁屏后音频链路被系统挂起或重复启动；
-- 麦克风去重、启动竞态、按钮状态即时响应、PWA 缓存版本 bump 等都做过真机向的修复（详见原仓库提交历史）。
+- 麦克风去重、启动竞态、按钮状态即时响应、离线缓存一致性管理等都做过真机向的适配。
 
 **UI** 是手写仿 iOS HIG：`-apple-system / PingFang SC` 字体栈、`#007AFF` 系统蓝、20px 卡片圆角、0.5px 分隔线、`cubic-bezier(0.32, 0.72, 0, 1)` 缓动、`env(safe-area-inset-bottom)` 安全区。右下角那个「扇形」按钮其实是一个 430×430 的圆，把圆心钉在容器右下角再用 `overflow:hidden` 裁出 1/4 扇区；增益滑块是原生 `<input type="range">` 换皮，蓝色填充由 JS 写 `linear-gradient` 实现。
 
-**长辈模式**不是另一套页面，而是同一套 iOS 视觉语言的大字号版。开启时不刷新、不中断助听：`WeakMap` 存下每个文本节点的原文，`MutationObserver` + `requestAnimationFrame` 增量捕获动态文案并替换成白话说法，退出时逐节点原样还原；同时补齐 `aria-live`、`focus-visible`、`role="dialog"`、`prefers-reduced-motion` 与语音播报（`speechSynthesis`）。
+**长辈模式**与标准界面共用同一套 iOS 视觉语言，以大字号、整宽按钮与白话文案呈现。开启时不刷新、不中断助听：`WeakMap` 存下每个文本节点的原文，`MutationObserver` + `requestAnimationFrame` 增量捕获动态文案并替换成白话说法，退出时逐节点原样还原；同时补齐 `aria-live`、`focus-visible`、`role="dialog"`、`prefers-reduced-motion` 与语音播报（`speechSynthesis`）。
 
 ---
 
@@ -110,7 +110,7 @@ clearhear-app/
 | 声音发尖、有啸叫 | 戴好耳机、调低增益，或在设置里开启啸叫保护 |
 | 感觉延迟明显 | 换有线耳机；设置页可查看实时延迟数值 |
 | 锁屏后声音断了 | 重新进入页面，锁屏恢复逻辑会重建音频链路 |
-| 图标或名字还是旧的 | Service Worker 缓存未刷新；版本已 bump 到 `clearhear-v1.5.0`，重开一次或清除站点数据 |
+| 图标或内容没更新 | Service Worker 缓存未刷新；重开一次或清除站点数据即可 |
 | 双击或双指会把界面放大缩小 | 已禁用误触缩放；需要更大字请用长辈模式的三档字号，系统级辅助功能放大依然可用 |
 
 ---
@@ -121,6 +121,6 @@ clearhear-app/
 
 ---
 
-## 🔗 版本与来源
+## 🔗 版本与交付
 
-基于 [Heiyixiake/heardit-app](https://github.com/Heiyixiake/heardit-app) v1.4.56 的品牌与适老化改版：更名为「听得清 ClearHear」、换用 A 耳廓声波图标、新增长辈模式、补齐 PWA 图标与缓存策略，当前 **v1.5.0**。原仓库保留改版前的代码与完整提交历史，本仓库是可独立部署的改版版本。
+当前版本 **v1.5.0**，可独立部署：仓库内 `index.html`、`manifest.json`、`sw.js` 与 `icons/` 即为全部运行文件，放到任意 HTTPS 静态托管即可使用。页面数据与听力测听结果仅保存在本机浏览器，无后端、无账号体系、无第三方服务依赖。
